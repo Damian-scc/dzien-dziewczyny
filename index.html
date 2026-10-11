@@ -1,222 +1,184 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salon Fryzjerski IMIN HAIR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dzień Dziewczyny 💗</title>
+<style>
+  :root { --pink:#ff7eb6; --hot:#ff2e88; --soft:#ffe3f0; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  html,body { height:100%; }
+  body {
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    color:var(--soft); overflow:hidden; text-align:center;
+    background:linear-gradient(120deg,#1a0620,#4a0f3d,#8a1c5c,#3a0b44);
+    background-size:400% 400%;
+    animation:bg 14s ease infinite;
+    display:flex; align-items:center; justify-content:center;
+  }
+  @keyframes bg { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  canvas { position:fixed; inset:0; pointer-events:none; z-index:1; }
+  .stage { position:relative; z-index:2; padding:24px; width:100%; max-width:680px; }
+  .scene { display:none; animation:in 1s ease both; }
+  .scene.on { display:block; }
+  @keyframes in { from{opacity:0; transform:scale(.85) translateY(20px)} to{opacity:1; transform:none} }
 
-  <!-- jeśli JS nie zadziała, treść i tak będzie widoczna -->
-  <script>document.documentElement.classList.add('js');</script>
+  .gift { font-size:110px; display:inline-block; cursor:pointer; animation:shake 1.8s ease-in-out infinite; filter:drop-shadow(0 0 30px rgba(255,126,182,.9)); }
+  @keyframes shake { 0%,100%{transform:rotate(0) scale(1)} 10%{transform:rotate(-10deg) scale(1.08)} 20%{transform:rotate(10deg) scale(1.08)} 30%{transform:rotate(-8deg)} 40%{transform:rotate(8deg)} 50%{transform:rotate(0)} }
+  h1 { font-size:clamp(2rem,8vw,3.6rem); margin:16px 0 8px; color:var(--pink);
+       text-shadow:0 0 12px var(--hot),0 0 40px rgba(255,46,136,.7); }
+  .hint { opacity:.8; font-size:1.05rem; animation:blink 1.6s infinite; }
+  @keyframes blink { 50%{opacity:.35} }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  .count { font-size:clamp(7rem,32vw,13rem); font-weight:800; color:#fff;
+           text-shadow:0 0 30px var(--hot),0 0 80px var(--hot); animation:pop .9s ease both; }
+  @keyframes pop { 0%{transform:scale(2.4); opacity:0} 40%{opacity:1} 100%{transform:scale(1)} }
+
+  .bigheart { font-size:clamp(7rem,30vw,12rem); display:inline-block; animation:beat 1.1s ease-in-out infinite;
+              filter:drop-shadow(0 0 40px var(--hot)); }
+  @keyframes beat { 0%,100%{transform:scale(1)} 15%{transform:scale(1.25)} 30%{transform:scale(1)} 45%{transform:scale(1.18)} }
+
+  .line { font-size:clamp(1.2rem,4.6vw,1.8rem); line-height:1.55; margin:12px 0; opacity:0;
+          transform:translateY(16px); transition:opacity 1.2s ease, transform 1.2s ease;
+          text-shadow:0 0 18px rgba(255,126,182,.6); }
+  .line.show { opacity:1; transform:none; }
+  .line b { color:var(--pink); }
+  .btn { margin-top:26px; padding:15px 32px; border:0; border-radius:999px;
+         background:linear-gradient(135deg,#ff7eb6,#ff2e88); color:#fff; font-size:1.1rem; font-weight:700;
+         cursor:pointer; box-shadow:0 0 30px rgba(255,46,136,.7); animation:beat 1.4s infinite; }
+  .hide { display:none; }
+  .final { font-size:clamp(2.4rem,10vw,4.6rem); font-weight:800;
+           background:linear-gradient(90deg,#fff,#ff7eb6,#fff,#ff2e88);
+           background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+           animation:shine 3s linear infinite; }
+  @keyframes shine { to{background-position:300% 0} }
+</style>
 </head>
-
 <body>
+<canvas id="fx"></canvas>
 
-  <!-- ========== NAWIGACJA ========== -->
-  <header class="navbar">
-    <div class="nav-inner">
-      <a href="#top" class="logo">IMIN HAIR<span>.</span></a>
+<div class="stage">
+  <div class="scene on" id="s0">
+    <div class="gift" id="gift">🎁</div>
+    <h1>Mam coś dla Ciebie…</h1>
+    <p class="hint">Kliknij prezent 💗</p>
+  </div>
 
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#about">O mnie</a></li>
-        <li><a href="#services">Usługi</a></li>
-        <li><a href="#gallery">Galeria</a></li>
-        <li><a href="#contact">Kontakt</a></li>
-      </ul>
+  <div class="scene" id="s1"><div class="count" id="num">3</div></div>
 
-      <a href="tel:+48504356149" class="btn btn-outline btn-sm nav-cta">Umów wizytę</a>
+  <div class="scene" id="s2">
+    <div class="bigheart">💖</div>
+    <h1>Wszystkiego najlepszego!</h1>
+    <div id="lines"></div>
+    <button class="btn hide" id="more">Kliknij jeszcze raz 💝</button>
+  </div>
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <div class="scene" id="s3">
+    <div class="bigheart">💗</div>
+    <div class="final" id="final"></div>
+    <p class="hint" style="margin-top:18px">Dotknij ekranu, żeby zobaczyć więcej ✨</p>
+  </div>
+</div>
 
-  <main>
+<script>
+  // ====== TU ZMIENIASZ TEKST ======
+  const LINES = [
+    "Dziś jest <b>Twój dzień</b> 🌸",
+    "Życzę Ci samych pięknych chwil,",
+    "uśmiechu, który nie schodzi z twarzy,",
+    "i wszystkiego, o czym marzysz. ✨",
+    "Dziękuję, że jesteś. <b>Naprawdę.</b> 💗"
+  ];
+  const FINAL = "Jesteś najlepsza! 💕";
+  // =================================
 
-    <!-- ========== HERO ========== -->
-    <section class="hero" id="top">
-      <div class="hero-background">
-        <!-- wrzuć zdjęcie do folderu images/hero.jpg, a pojawi się samo -->
-        <img src="images/hero.jpg" alt="" onerror="this.remove()">
-      </div>
+  const cv = document.getElementById('fx'), ctx = cv.getContext('2d');
+  let W, H;
+  const resize = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
+  addEventListener('resize', resize); resize();
 
-      <div class="hero-content">
-        <p class="eyebrow reveal">PIĘKNO • STYL • WŁOSY</p>
+  const EMO = ['💗','💖','💕','💝','🌸','✨','💘'];
+  let parts = [], stars = [], rain = 0.07;
+  for (let i = 0; i < 90; i++) stars.push({x:Math.random(), y:Math.random(), r:Math.random()*1.8+.3, p:Math.random()*6.28});
 
-        <h1 class="reveal" style="--d:.1s">
-          Twoje włosy,
-          <span>nasza pasja.</span>
-        </h1>
+  function rainHeart() {
+    parts.push({x:Math.random()*W, y:-30, vx:0, vy:.7+Math.random()*1.6, s:14+Math.random()*28,
+                e:EMO[Math.random()*EMO.length|0], life:1, g:0, d:Math.random()*6.28, sway:true});
+  }
+  function burstAt(x, y, n=36) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random()*6.28, sp = 2+Math.random()*7;
+      parts.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, s:14+Math.random()*22,
+                  e:EMO[Math.random()*EMO.length|0], life:1, g:.12, d:0, sway:false});
+    }
+  }
+  function fireworks(times) {
+    for (let i = 0; i < times; i++)
+      setTimeout(() => burstAt(W*(.15+Math.random()*.7), H*(.15+Math.random()*.5), 40), i*350);
+  }
 
-        <p class="hero-description reveal" style="--d:.2s">
-          Profesjonalna pielęgnacja, koloryzacja i stylizacja włosów
-          w wyjątkowej atmosferze.
-        </p>
+  let t = 0;
+  (function loop() {
+    t += .02;
+    ctx.clearRect(0,0,W,H);
+    for (const s of stars) {
+      ctx.globalAlpha = .4 + .6*Math.abs(Math.sin(t+s.p));
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r, 0, 6.28); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if (Math.random() < rain) rainHeart();
+    parts = parts.filter(p => p.life > 0 && p.y < H+40);
+    for (const p of parts) {
+      p.vy += p.g; p.x += p.vx; p.y += p.vy; p.d += .03;
+      if (p.sway) p.x += Math.sin(p.d)*.8; else p.life -= .008;
+      ctx.globalAlpha = Math.max(p.life, 0);
+      ctx.font = p.s + 'px serif';
+      ctx.fillText(p.e, p.x, p.y);
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(loop);
+  })();
 
-        <a href="#services" class="btn btn-fill reveal" style="--d:.3s">Odkryj usługi ↓</a>
-      </div>
+  // serduszka za palcem / myszką + wybuch po dotknięciu
+  let last = 0;
+  addEventListener('pointermove', e => {
+    const n = performance.now(); if (n - last < 45) return; last = n;
+    parts.push({x:e.clientX, y:e.clientY, vx:(Math.random()-.5)*1.5, vy:-1-Math.random()*1.5, s:12+Math.random()*14,
+                e:EMO[Math.random()*EMO.length|0], life:1, g:.02, d:0, sway:false});
+  });
+  addEventListener('pointerdown', e => burstAt(e.clientX, e.clientY, 18));
 
-      <div class="scroll-indicator">
-        <span></span>
-        SCROLL
-      </div>
-    </section>
+  function show(id) {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+  }
+  const wait = ms => new Promise(r => setTimeout(r, ms));
 
-    <!-- ========== ZOOM (jak w Apple) ========== -->
-    <section class="zoom">
-      <div class="zoom-sticky">
-        <div class="zoom-circle"></div>
-        <h2 class="zoom-text first">Dbamy o detale.</h2>
-        <h2 class="zoom-text second">Twoje włosy zasługują na więcej.</h2>
-      </div>
-    </section>
-    <div class="zoom-fade"></div>
+  document.getElementById('gift').addEventListener('click', async () => {
+    show('s1');
+    const num = document.getElementById('num');
+    for (const n of ['3','2','1']) {
+      num.textContent = n; num.style.animation = 'none'; void num.offsetWidth; num.style.animation = '';
+      await wait(900);
+    }
+    show('s2');
+    rain = .25; fireworks(6);
+    const box = document.getElementById('lines');
+    for (const l of LINES) {
+      const d = document.createElement('div'); d.className = 'line'; d.innerHTML = l; box.appendChild(d);
+      await wait(60); d.classList.add('show'); await wait(1500);
+    }
+    document.getElementById('more').classList.remove('hide');
+  });
 
-    <!-- ========== O NAS ========== -->
-    <section class="about" id="about">
-      <div class="container about-grid">
-        <div class="about-image reveal-image">
-          <div class="image-placeholder"><span>TWOJE ZDJĘCIE</span></div>
-        </div>
-
-        <div class="about-content reveal">
-          <h2>Piękno zaczyna się <span>od Ciebie.</span></h2>
-          <p>
-            Tworzymy miejsce, w którym włosy są czymś więcej niż tylko fryzurą.
-            To przestrzeń dla kobiet, które chcą poczuć się dobrze i wyglądać
-            dokładnie tak, jak sobie wymarzyły.
-          </p>
-          <p>
-            Każda wizyta jest dopasowana indywidualnie, od koloru po
-            najmniejszy detal stylizacji.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== USŁUGI ========== -->
-    <section class="services" id="services">
-      <div class="container">
-        <p class="eyebrow reveal">CO ROBIMY</p>
-        <h2 class="section-title reveal">Moje <span>usługi</span></h2>
-
-        <div class="cards">
-          <article class="card reveal">
-            <div class="card-icon">✂</div>
-            <h3>Strzyżenie</h3>
-            <p>Cięcie dopasowane do kształtu twarzy i Twojego stylu życia.</p>
-            <span class="card-price">od 80 zł</span>
-          </article>
-
-          <article class="card reveal" style="--d:.1s">
-            <div class="card-icon">✿</div>
-            <h3>Koloryzacja</h3>
-            <p>Od delikatnych refleksów po pełną zmianę koloru.</p>
-            <span class="card-price">od 150 zł</span>
-          </article>
-
-          <article class="card reveal" style="--d:.2s">
-            <div class="card-icon">❋</div>
-            <h3>Pielęgnacja</h3>
-            <p>Regeneracja i zabiegi odżywcze dla zdrowych, lśniących włosów.</p>
-            <span class="card-price">od 100 zł</span>
-          </article>
-
-          <article class="card reveal" style="--d:.3s">
-            <div class="card-icon">✦</div>
-            <h3>Stylizacja</h3>
-            <p>Upięcia, fale i fryzury na każdą okazję.</p>
-            <span class="card-price">od 100 zł</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== GALERIA ========== -->
-    <section class="gallery" id="gallery">
-      <div class="container">
-        <p class="eyebrow reveal">REALIZACJE</p>
-        <h2 class="section-title reveal">Moje <span>prace</span></h2>
-
-        <!-- zamień <div class="ph"></div> na <img src="images/prace1.jpg" alt="opis"> -->
-        <div class="gallery-grid">
-          <figure class="gallery-item tall reveal-image">
-            <div class="ph"></div>
-            <figcaption>Koloryzacja</figcaption>
-          </figure>
-
-          <figure class="gallery-item reveal-image" style="--d:.1s">
-            <div class="ph"></div>
-            <figcaption>Strzyżenie</figcaption>
-          </figure>
-
-          <figure class="gallery-item reveal-image" style="--d:.2s">
-            <div class="ph"></div>
-            <figcaption>Stylizacja</figcaption>
-          </figure>
-
-          <figure class="gallery-item wide reveal-image" style="--d:.1s">
-            <div class="ph"></div>
-            <figcaption>Upięcie</figcaption>
-          </figure>
-
-          <figure class="gallery-item reveal-image" style="--d:.2s">
-            <div class="ph"></div>
-            <figcaption>Pielęgnacja</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== KONTAKT ========== -->
-    <section class="contact" id="contact">
-      <div class="container">
-        <p class="eyebrow reveal">ZAPRASZAMY</p>
-        <h2 class="section-title reveal">Umów się <span>na wizytę</span></h2>
-
-        <div class="contact-grid">
-          <div class="contact-box reveal">
-            <h3>Znajdziesz mnie</h3>
-            <p>ul. Konrada Wallenroda 9<br>Gdańsk</p>
-            <p class="contact-phone"><a href="tel:+48504356149">tel. 504 356 149</a></p>
-
-            <div class="contact-buttons">
-              <a href="tel:+48504356149" class="btn btn-fill">Zadzwoń</a>
-              <a href="https://maps.app.goo.gl/CbSXgvTQ9hfEVwcr9"
-                 target="_blank" rel="noopener" class="btn btn-outline">Wyznacz trasę</a>
-            </div>
-          </div>
-
-          <div class="contact-box reveal" style="--d:.15s">
-            <h3>Godziny otwarcia</h3>
-            <ul class="hours">
-              <li><span>Poniedziałek</span><span>zamknięte</span></li>
-              <li><span>Wtorek – Piątek</span><span>9:00 – 17:00</span></li>
-              <li><span>Sobota</span><span>9:00 – 15:00</span></li>
-              <li><span>Niedziela</span><span>zamknięte</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>© 2026 IMIN HAIR · Wszelkie prawa zastrzeżone</footer>
-
-  <!-- ========== OKIENKO Z OPINIAMI (zawsze w rogu) ========== -->
-  <aside class="review-widget" aria-live="polite">
-    <button class="rw-close" aria-label="Zamknij opinie">×</button>
-    <div class="rw-stars">★★★★★</div>
-    <p class="rw-text"></p>
-    <span class="rw-name"></span>
-  </aside>
-
-  <script src="script.js"></script>
+  document.getElementById('more').addEventListener('click', async () => {
+    show('s3');
+    rain = .5; fireworks(14);
+    const f = document.getElementById('final');
+    for (let i = 1; i <= FINAL.length; i++) { f.textContent = FINAL.slice(0, i); await wait(90); }
+    setInterval(() => fireworks(2), 2500);
+  });
+</script>
 </body>
 </html>
