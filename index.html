@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Fryzjerski IMIN HAIR</title>
+
+  <!-- jeśli JS nie zadziała, treść i tak będzie widoczna -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ========== NAWIGACJA ========== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="#top" class="logo">IMIN HAIR<span>.</span></a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">O mnie</a></li>
+        <li><a href="#services">Usługi</a></li>
+        <li><a href="#gallery">Galeria</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+
+      <a href="tel:+48504356149" class="btn btn-outline btn-sm nav-cta">Umów wizytę</a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="top">
+      <div class="hero-background">
+        <!-- wrzuć zdjęcie do folderu images/hero.jpg, a pojawi się samo -->
+        <img src="images/hero.jpg" alt="" onerror="this.remove()">
+      </div>
+
+      <div class="hero-content">
+        <p class="eyebrow reveal">PIĘKNO • STYL • WŁOSY</p>
+
+        <h1 class="reveal" style="--d:.1s">
+          Twoje włosy,
+          <span>nasza pasja.</span>
+        </h1>
+
+        <p class="hero-description reveal" style="--d:.2s">
+          Profesjonalna pielęgnacja, koloryzacja i stylizacja włosów
+          w wyjątkowej atmosferze.
+        </p>
+
+        <a href="#services" class="btn btn-fill reveal" style="--d:.3s">Odkryj usługi ↓</a>
+      </div>
+
+      <div class="scroll-indicator">
+        <span></span>
+        SCROLL
+      </div>
+    </section>
+
+    <!-- ========== ZOOM (jak w Apple) ========== -->
+    <section class="zoom">
+      <div class="zoom-sticky">
+        <div class="zoom-circle"></div>
+        <h2 class="zoom-text first">Dbamy o detale.</h2>
+        <h2 class="zoom-text second">Twoje włosy zasługują na więcej.</h2>
+      </div>
+    </section>
+    <div class="zoom-fade"></div>
+
+    <!-- ========== O NAS ========== -->
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="about-image reveal-image">
+          <div class="image-placeholder"><span>TWOJE ZDJĘCIE</span></div>
+        </div>
+
+        <div class="about-content reveal">
+          <h2>Piękno zaczyna się <span>od Ciebie.</span></h2>
+          <p>
+            Tworzymy miejsce, w którym włosy są czymś więcej niż tylko fryzurą.
+            To przestrzeń dla kobiet, które chcą poczuć się dobrze i wyglądać
+            dokładnie tak, jak sobie wymarzyły.
+          </p>
+          <p>
+            Każda wizyta jest dopasowana indywidualnie, od koloru po
+            najmniejszy detal stylizacji.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== USŁUGI ========== -->
+    <section class="services" id="services">
+      <div class="container">
+        <p class="eyebrow reveal">CO ROBIMY</p>
+        <h2 class="section-title reveal">Moje <span>usługi</span></h2>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="card-icon">✂</div>
+            <h3>Strzyżenie</h3>
+            <p>Cięcie dopasowane do kształtu twarzy i Twojego stylu życia.</p>
+            <span class="card-price">od 80 zł</span>
+          </article>
+
+          <article class="card reveal" style="--d:.1s">
+            <div class="card-icon">✿</div>
+            <h3>Koloryzacja</h3>
+            <p>Od delikatnych refleksów po pełną zmianę koloru.</p>
+            <span class="card-price">od 150 zł</span>
+          </article>
+
+          <article class="card reveal" style="--d:.2s">
+            <div class="card-icon">❋</div>
+            <h3>Pielęgnacja</h3>
+            <p>Regeneracja i zabiegi odżywcze dla zdrowych, lśniących włosów.</p>
+            <span class="card-price">od 100 zł</span>
+          </article>
+
+          <article class="card reveal" style="--d:.3s">
+            <div class="card-icon">✦</div>
+            <h3>Stylizacja</h3>
+            <p>Upięcia, fale i fryzury na każdą okazję.</p>
+            <span class="card-price">od 100 zł</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== GALERIA ========== -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <p class="eyebrow reveal">REALIZACJE</p>
+        <h2 class="section-title reveal">Moje <span>prace</span></h2>
+
+        <!-- zamień <div class="ph"></div> na <img src="images/prace1.jpg" alt="opis"> -->
+        <div class="gallery-grid">
+          <figure class="gallery-item tall reveal-image">
+            <div class="ph"></div>
+            <figcaption>Koloryzacja</figcaption>
+          </figure>
+
+          <figure class="gallery-item reveal-image" style="--d:.1s">
+            <div class="ph"></div>
+            <figcaption>Strzyżenie</figcaption>
+          </figure>
+
+          <figure class="gallery-item reveal-image" style="--d:.2s">
+            <div class="ph"></div>
+            <figcaption>Stylizacja</figcaption>
+          </figure>
+
+          <figure class="gallery-item wide reveal-image" style="--d:.1s">
+            <div class="ph"></div>
+            <figcaption>Upięcie</figcaption>
+          </figure>
+
+          <figure class="gallery-item reveal-image" style="--d:.2s">
+            <div class="ph"></div>
+            <figcaption>Pielęgnacja</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== KONTAKT ========== -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <p class="eyebrow reveal">ZAPRASZAMY</p>
+        <h2 class="section-title reveal">Umów się <span>na wizytę</span></h2>
+
+        <div class="contact-grid">
+          <div class="contact-box reveal">
+            <h3>Znajdziesz mnie</h3>
+            <p>ul. Konrada Wallenroda 9<br>Gdańsk</p>
+            <p class="contact-phone"><a href="tel:+48504356149">tel. 504 356 149</a></p>
+
+            <div class="contact-buttons">
+              <a href="tel:+48504356149" class="btn btn-fill">Zadzwoń</a>
+              <a href="https://maps.app.goo.gl/CbSXgvTQ9hfEVwcr9"
+                 target="_blank" rel="noopener" class="btn btn-outline">Wyznacz trasę</a>
+            </div>
+          </div>
+
+          <div class="contact-box reveal" style="--d:.15s">
+            <h3>Godziny otwarcia</h3>
+            <ul class="hours">
+              <li><span>Poniedziałek</span><span>zamknięte</span></li>
+              <li><span>Wtorek – Piątek</span><span>9:00 – 17:00</span></li>
+              <li><span>Sobota</span><span>9:00 – 15:00</span></li>
+              <li><span>Niedziela</span><span>zamknięte</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>© 2026 IMIN HAIR · Wszelkie prawa zastrzeżone</footer>
+
+  <!-- ========== OKIENKO Z OPINIAMI (zawsze w rogu) ========== -->
+  <aside class="review-widget" aria-live="polite">
+    <button class="rw-close" aria-label="Zamknij opinie">×</button>
+    <div class="rw-stars">★★★★★</div>
+    <p class="rw-text"></p>
+    <span class="rw-name"></span>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
